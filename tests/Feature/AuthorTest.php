@@ -50,18 +50,18 @@ class AuthorTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $response = $this->postJson(route('authors.store'), [
-            'name' => Author::formatName('Antoine de Saint-Exupéry'),
+            'name' => Author::formatField('Antoine de Saint-Exupéry'),
         ]);
 
         $response->assertStatus(Response::HTTP_CREATED)
         ->assertJson([
             'data' => [
-                'name' => Author::formatName('Antoine de Saint-Exupéry'),
+                'name' => Author::formatField('Antoine de Saint-Exupéry'),
             ],
         ]);
 
         $response = $this->postJson(route('authors.store'), [
-            'name' => Author::formatName('Antoine de Saint-Exupéry'),
+            'name' => Author::formatField('Antoine de Saint-Exupéry'),
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }

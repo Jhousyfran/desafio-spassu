@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
 
-class ApiBaseController extends Controller
+abstract class ApiBaseController extends Controller implements ApiBaseControllerInterface
 {
     protected string $resource;
     protected string $model;
@@ -66,7 +66,7 @@ class ApiBaseController extends Controller
         try {
             $data =  $this->model::create($validated);
         } catch (\Throwable $e) {
-            throw new RunTimeException("Erro ao criar {$this->getResource()}.", Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new RunTimeException("Erro ao criar {$this->getResource()}: {$e->getMessage()}", Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return response()->json([

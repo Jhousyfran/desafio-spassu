@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Author extends Model
+class Topic extends Model
 {
     use SoftDeletes;
     use ModelTrait;
+
 
     protected $fillable = [
         'name',

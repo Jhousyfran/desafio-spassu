@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Author;
+namespace App\Http\Requests\Topic;
 
-use App\Models\Author;
+use App\Models\Topic;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AuthorRequest extends FormRequest
+class StoreTopicRequest extends TopicRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,27 +23,16 @@ class AuthorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|min:3|unique:authors,name,' . $this->route('author'),
-        ];
-    }
-
-    /**
-     * Get the validation error messages.
-     *
-     * @return array<string, string>
-     */
-    public function messages(): array
-    {
-        return [
-            'name.unique' => 'Já existe um autor cadastrado com esse nome.',
+            'name' => 'required|string|max:20|min:3|unique:topics,name',
         ];
     }
 
     public function prepareForValidation(): void
     {
         $this->merge([
-            'name' => Author::formatField($this->name),
+            'name' => Topic::formatField($this->name),
         ]);
     }
-}
 
+
+}
