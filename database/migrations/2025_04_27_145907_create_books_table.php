@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 40)->unique(); // especificação dizia 40
+            $table->string('subtitle', 250)->unique(); // implementei pesando na possibilidade de ter titulo grande/composto
+            $table->string('publisher', 40);
+            $table->integer('edition');
+            $table->string('year_of_publication', 4);
+            $table->double('price', 8, 2);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
