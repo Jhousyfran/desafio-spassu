@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ResourceNotFoundException;
 use App\Exceptions\RunTimeException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,6 +50,7 @@ abstract class ApiBaseController extends Controller implements ApiBaseController
     public function show($id): Response
     {
         $data =  $this->newModelQuery()->find($id);
+        $data = $data->load($this->getRelationsToSync($data));
 
         if (!$data) {
             throw new ResourceNotFoundException("{$this->getResource()} não encontrado. ", Response::HTTP_NOT_FOUND);
@@ -65,6 +67,7 @@ abstract class ApiBaseController extends Controller implements ApiBaseController
 
         try {
             $data =  $this->model::create($validated);
+            $this->syncRelations($data, $validated);
         } catch (\Throwable $e) {
             throw new RunTimeException("Erro ao criar {$this->getResource()}: {$e->getMessage()}", Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -85,6 +88,8 @@ abstract class ApiBaseController extends Controller implements ApiBaseController
 
         try {
             $model->update($validated);
+            $this->syncRelations($model, $validated);
+
         } catch (\Throwable $th) {
             throw new RunTimeException("Erro ao atualizar {$this->getResource()}.", Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -138,5 +143,27 @@ abstract class ApiBaseController extends Controller implements ApiBaseController
         }
 
         return "Recurso";
+    }
+
+    protected function syncRelations(Model $model, array $data)
+    {
+        if(!method_exists($model, 'getRelationsToSync')) {
+            return;
+        }
+
+        foreach ($model->getRelationsToSync() ?? [] as $relation => $field) {
+            if (isset($data[$field])) {
+                $model->{$relation}()->sync($data[$field]);
+            }
+        }
+    }
+
+    public function getRelationsToSync(Model $model): array
+    {
+        if(!method_exists($model, 'getRelationsToSync')) {
+            return [];
+        }
+
+        return array_values($model->getRelationsToSync());
     }
 }

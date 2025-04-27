@@ -235,7 +235,16 @@ return [
         'modality' => 'modalidade',
         'category' => 'categoria',
         'blood_type' => 'tipo sanguíneo',
-        'birth_date' => 'data de nascimento'
+        'birth_date' => 'data de nascimento',
+        'subtitle'  => 'subtítulo',
+        'authors'   => 'autores',
+        'publisher' =>'editora',
+        'edition' =>'edição',
+        'authors.*' =>'autor',
+        'topics' =>'assuntos',
+        'topics.*' =>'assunto',
+        'year_of_publication' =>'ano de publicação',
+        'price' =>'preço',
     ],
 
 ];

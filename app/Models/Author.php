@@ -28,4 +28,9 @@ class Author extends Model
         $this->attributes['name'] = $this->formatField($value);
     }
 
+    public function books()
+    {
+        return $this->belongsToMany(Book::class, 'author_book');
+    }
+
 }
