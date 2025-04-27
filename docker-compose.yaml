@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  app-api:
+    container_name: app-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - HOST_UID=1000
+        - HOST_GID=1000
+    user: "1000:1000"
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - "db"
+      - "app-redis"
+
+  db:
+    container_name: app-db
+    image: mysql:5.7.22
+    command: --innodb-use-native-aio=0
+    restart: always
+    ports:
+      - "3306"
+    volumes:
+      - "mysql_data:/var/lib/mysql"
+    environment:
+      MYSQL_DATABASE: spassu
+      MYSQL_ROOT_PASSWORD: root
+
+  nginx:
+    container_name: app-nginx
+    build: ./.docker/nginx
+    restart: always
+    ports:
+      - "8001:80"
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - app-api
+
+  app-redis:
+    image: redis:alpine
+    expose:
+      - "6379"
+
+volumes:
+  mysql_data:
