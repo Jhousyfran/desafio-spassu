@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,6 +11,8 @@ class Book extends Model
 {
     use ModelTrait;
     use SoftDeletes;
+    use HasFactory;
+
 
     protected $fillable = [
         'title',
@@ -50,5 +53,10 @@ class Book extends Model
             'authors' => 'authors',
             'topics' => 'topics',
         ];
+    }
+
+    public function getPriceAttribute($value): string
+    {
+        return number_format($value, 2, '.', '');
     }
 }
