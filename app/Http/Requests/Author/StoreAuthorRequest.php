@@ -4,6 +4,7 @@ namespace App\Http\Requests\Author;
 
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreAuthorRequest extends AuthorRequest
 {
@@ -23,7 +24,16 @@ class StoreAuthorRequest extends AuthorRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|min:3|unique:authors,name',
+            // 'name' => 'required|string|max:255|min:3|unique:authors,name',
+            'name' => [
+                'required',
+                'string',
+                'max:250',
+                'min:3',
+                Rule::unique('authors', 'name')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                }),
+            ],
         ];
     }
 

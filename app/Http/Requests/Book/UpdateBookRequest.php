@@ -24,7 +24,7 @@ class UpdateBookRequest extends BookRequest
     {
         return [
             'title' => 'required|string|max:40|min:3|unique:books,title,' . $this->route('book'),
-            'subtitle' => 'string|max:250',
+            'subtitle' => 'max:250',
             'publisher' => 'required|string|max:40|min:3',
             'year_of_publication' => 'required|integer|min:1800|max:' . date('Y'),
             'price' => 'required|numeric|min:0',

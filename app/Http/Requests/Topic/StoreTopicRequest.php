@@ -4,6 +4,7 @@ namespace App\Http\Requests\Topic;
 
 use App\Models\Topic;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTopicRequest extends TopicRequest
 {
@@ -23,7 +24,16 @@ class StoreTopicRequest extends TopicRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:20|min:3|unique:topics,name',
+            // 'name' => 'required|string|max:20|min:3|unique:topics,name',
+            'name' => [
+                'required',
+                'string',
+                'max:20',
+                'min:3',
+                Rule::unique('topics', 'name')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                }),
+            ],
         ];
     }
 

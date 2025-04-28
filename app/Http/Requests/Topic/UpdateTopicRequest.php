@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Topic;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTopicRequest extends TopicRequest
 {
@@ -22,7 +23,16 @@ class UpdateTopicRequest extends TopicRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:20|min:3|unique:topics,name,' . $this->route('topic'),
+            // 'name' => 'required|string|max:20|min:3|unique:topics,name,' . $this->route('topic'),
+            'name' => [
+                'required',
+                'string',
+                'max:20',
+                'min:3',
+                Rule::unique('topics', 'name')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                })->ignore($this->route('topic')),
+            ],
         ];
     }
 }

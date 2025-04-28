@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('title', 40)->unique(); // especificação dizia 40
+            $table->string('title', 40); // especificação dizia 40
             $table->string('subtitle', 250)->nullable(); // implementei pesando na possibilidade de ter titulo grande/composto
             $table->string('publisher', 40);
             $table->integer('edition');
