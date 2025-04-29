@@ -23,7 +23,7 @@ services:
     ports:
       - "3306"
     volumes:
-      - "mysql_data:/var/lib/mysql"
+      - "mysql_data_a:/var/lib/mysql"
     environment:
       MYSQL_DATABASE: spassu
       MYSQL_ROOT_PASSWORD: root
@@ -51,4 +51,4 @@ services:
       - app-api
 
 volumes:
-  mysql_data:
+  mysql_data_a:
