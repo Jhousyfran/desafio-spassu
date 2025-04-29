@@ -18,8 +18,8 @@ const topicsData = ref([]);
 const authorsData = ref([]);
 const loadStats = async () => {
   const [{ data: topics }, { data: authors }] = await Promise.all([
-    api.get('/topics', { params: { page: 100 } }),
-    api.get('/authors', { params: { page: 100 } }),
+    api.get('/topics', { params: { per_page: 100 } }),
+    api.get('/authors', { params: { per_page: 100 } }),
   ]);
 
   topicsData.value = topics.data;
