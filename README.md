@@ -44,3 +44,10 @@ Certifique-se de ter instalado:
 - **/app**: Código-fonte principal.
 - **/tests**: Testes automatizados.
 - **/frontend**: App vue3 - front da app.
+
+## Para rodar os testes automatizados
+1. Rode o comando make:
+```sh
+make test
+```
+![Tests](./test.png)
