@@ -28,7 +28,7 @@ abstract class ApiBaseController extends Controller implements ApiBaseController
             }
         }
 
-        $pagination = $query->paginate($request->get('per_page', $this->perPage));
+        $pagination = $query->orderBy('created_at', 'desc')->paginate($request->get('per_page', $this->perPage));
 
         return response()->json([
             'data' => $pagination->items(),
