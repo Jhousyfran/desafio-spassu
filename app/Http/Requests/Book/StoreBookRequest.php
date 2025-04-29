@@ -22,7 +22,7 @@ class StoreBookRequest extends BookRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:400|min:3|unique:books,title',
+            'title' => 'required|string|max:40|min:3|unique:books,title',
             'subtitle' => 'max:250',
             'publisher' => 'required|string|max:40|min:3',
             'year_of_publication' => 'required|integer|min:1800|max:' . date('Y'),
