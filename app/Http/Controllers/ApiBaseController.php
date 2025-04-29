@@ -16,7 +16,7 @@ abstract class ApiBaseController extends Controller implements ApiBaseController
     protected $storeRequestClass = null;
     protected $updateRequestClass = null;
 
-    protected int $perPage = 15;
+    protected int $perPage = 8;
 
     public function index(Request $request): Response
     {
