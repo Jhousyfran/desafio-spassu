@@ -17,13 +17,13 @@ const configMoney = {
 const topicsData = ref([]);
 const authorsData = ref([]);
 const loadStats = async () => {
-    const [{ data: topics }, { data: authors }] = await Promise.all([
-        api.get('/topics'),
-        api.get('/authors')
-    ]);
+  const [{ data: topics }, { data: authors }] = await Promise.all([
+    api.get('/topics', { params: { page: 100 } }),
+    api.get('/authors', { params: { page: 100 } }),
+  ]);
 
-    topicsData.value = topics.data;
-    authorsData.value = authors.data;
+  topicsData.value = topics.data;
+  authorsData.value = authors.data;
 };
 const form = reactive({ ...props.modelValue });
 const errors = reactive({});
@@ -32,7 +32,7 @@ const save = async () => {
 
   form.authors = form.authors_selecteds ? form.authors_selecteds.map(a => a.id) : [];
   form.topics = form.topics_selecteds ? form.topics_selecteds.map(a => a.id) : [];
-  
+
   try {
     if (form.id) {
       await api.put('/books/' + form.id, form);
@@ -98,7 +98,8 @@ onMounted(loadStats);
             </div>
             <div class="col-4">
               <label class="form-label text-capitalize font-weight-bold">Preço <b class="text-danger">*</b></label>
-              <money3 v-model.number="form.price" inputmode="numeric" type="text" v-bind:="configMoney" class="form-control" />
+              <money3 v-model.number="form.price" inputmode="numeric" type="text" v-bind:="configMoney"
+                class="form-control" />
               <div v-if="errors.price" class="invalid-feedback d-block">
                 {{ errors.price[0] }}
               </div>
@@ -107,16 +108,9 @@ onMounted(loadStats);
           <div class="row">
             <div class="mb-3">
               <label class="form-label text-capitalize font-weight-bold">Autores <b class="text-danger">*</b></label>
-              <Multiselect
-                v-model="form.authors_selecteds"
-                :options="authorsData"
-                track-by="id"
-                label="name"
-                placeholder="Selecione um ou mais autores"
-                multiple
-                close-on-select="false"
-                :taggable="false"
-                class="form-control p-0"  />
+              <Multiselect v-model="form.authors_selecteds" :options="authorsData" track-by="id" label="name"
+                placeholder="Selecione um ou mais autores" multiple close-on-select="false" :taggable="false"
+                class="form-control p-0" />
 
               <!-- <div v-if="errors.author_ids" class="invalid-feedback d-block">
                 {{ errors.author_ids[0] }}
@@ -128,16 +122,9 @@ onMounted(loadStats);
             </div>
             <div class="mb-3">
               <label class="form-label text-capitalize font-weight-bold">Assuntos <b class="text-danger">*</b></label>
-              <Multiselect
-                v-model="form.topics_selecteds"
-                :options="topicsData"
-                track-by="id"
-                label="name"
-                placeholder="Selecione um ou mais assuntos"
-                multiple
-                close-on-select="false"
-                :taggable="false"
-                class="form-control p-0"  />
+              <Multiselect v-model="form.topics_selecteds" :options="topicsData" track-by="id" label="name"
+                placeholder="Selecione um ou mais assuntos" multiple close-on-select="false" :taggable="false"
+                class="form-control p-0" />
               <!-- <input v-model="form.topics" type="text" class="form-control" /> -->
               <div v-if="errors.topics" class="invalid-feedback d-block">
                 {{ errors.topics[0] }}

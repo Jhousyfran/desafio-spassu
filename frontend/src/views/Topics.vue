@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import api from '@/services/api';
 import TopicForm from '@/components/TopicForm.vue';
-import Pagination   from '@/components/Pagination.vue';
+import Pagination from '@/components/Pagination.vue';
 
 const items = ref({
   data: [],
